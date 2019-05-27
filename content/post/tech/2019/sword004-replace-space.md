@@ -23,11 +23,11 @@ categories = ["Tech"]
 
 <!--more-->
 
-# 问题
+## 问题
 
 > 请实现一个函数，将一个字符串中的空格替换成“%20”。 例如，当字符串为We Are Happy.则经过替换之后的字符串为We%20Are%20Happy。
 
-# 思路
+## 思路
 
 使用两个指针遍历一次减少复杂度。
 
@@ -36,11 +36,11 @@ categories = ["Tech"]
 3. 使用两个指针分别指向新旧容器的末尾；
 4. 将旧容器末尾内容依次写入新容器末尾，遇到需要替换的内容时进行替换；
 
-# 特殊情况测试
+## 特殊情况测试
 
 - 空字符输入测试
 
-# 代码实现
+## 代码实现
 
 ```go
 package q004
@@ -67,7 +67,7 @@ func Answer(inputStr string) (outputStr string) {
 	return string(outputByte)
 }
 ```
-# 测试用例
+## 测试用例
 
 ```go
 package q004

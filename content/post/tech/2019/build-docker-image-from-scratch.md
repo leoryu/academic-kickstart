@@ -23,7 +23,7 @@ categories = ["Tech"]
 
 <!--more--> 
 
-# 1. 从石头缝里蹦出来的基础镜像？
+## 1. 从石头缝里蹦出来的基础镜像？
 
 这里请大家思考一个问题：docker hub上的那些基础镜像，如nginx、alpine、ubuntu，都是怎么来的？
 
@@ -47,7 +47,7 @@ CMD ["/hello"]
 
 由于host主机的Linux内核部分对Docker容器是共享的，因此其scratch空镜像的大小可以认为近似为0。
 
-# 2. 以Go语言为例做一个最小镜像
+## 2. 以Go语言为例做一个最小镜像
 
 做最小镜像的关键在于你要完全了解你的程序需要什么，而针对不同的语言，需要到的背景知识和技巧也不同。
 
@@ -65,7 +65,7 @@ func main() {
 }
 ```
 
-## 2.1. 编译中技巧
+### 2.1. 编译中技巧
 
 如果希望你程序编译出来最小，并保证能够在scratch空镜像内运行，则需要在编译中用一些技巧：
 
@@ -75,11 +75,11 @@ GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -ldflags '-w -s' hello.go
 
 下面笔者将一一解析这条命令中的各个部分含义。
 
-### 2.1.1. GOOS=linux GOARCH=amd64含义
+#### 2.1.1. GOOS=linux GOARCH=amd64含义
 
 确保编译出来的程序可以运行在你的容器运行环境。笔者的容器运行环境为amd64 linux环境。
 
-### 2.1.2 CGO_ENABLED=0含义
+#### 2.1.2 CGO_ENABLED=0含义
 
 该参数是确保你用到的C函数库包含到你的Go run-time中，程序运行时以静态方式内部调用
 
@@ -87,7 +87,7 @@ GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -ldflags '-w -s' hello.go
 
 > PS：Go语言调用C函数库出错的现象也会出现在alpine中，这是因为alpine的C函数库是精简版的。
 
-### 2.1.3. -ldflags '-w -s'含义
+#### 2.1.3. -ldflags '-w -s'含义
 
 这部分参数是精简掉Debug信息，而让编译出来的程序更小。
 
@@ -95,7 +95,7 @@ GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -ldflags '-w -s' hello.go
 
 -s是精简掉debug symbol
 
-## 2.2. Dockerfile书写技巧
+### 2.2. Dockerfile书写技巧
 
 Dockerfile的书写也需要一定的技巧，这里先给出笔者的Dockerfile：
 
@@ -109,13 +109,13 @@ ADD hello /
 CMD [ "/hello" ]
 ```
 
-### 2.2.1. RUN命令失效
+#### 2.2.1. RUN命令失效
 
 由于scratch空镜像中没有sh或bash，想mkdir、mv等shell命令是无效的。
 
 因此请在镜像外部把文件结构建立好，然后通过ADD或COPY命令拷贝到容器内。
 
-### 2.2.2. 单层一次到位原则
+#### 2.2.2. 单层一次到位原则
 
 尽管在使用scratch空镜像时无法使用RUN，不大会违反这一原则，但笔者认为大家有必要知道这一原则。
 
@@ -127,7 +127,7 @@ RUN mv /here/{1M文件} /there/{1M文件}
 
 制作出来的镜像会大出1M，这是因为/here下的文件并没有因为mv命令而消失，它永远保存在RUN命令之前的那一层中了，RUN命令这一层只是把它藏了起来。
 
-## 2.3. 制作镜像查看成果
+### 2.3. 制作镜像查看成果
 
 在包含Dockerfile和hello程序的位置执行下面的命令制作镜像：
 
@@ -154,7 +154,7 @@ $ ll hello
 
 可以看到我们最终得到的镜像的大小就接近与可执行文件的大小。
 
-# 3. 总结
+## 3. 总结
 
 使用scratch空镜像的优点：
 
