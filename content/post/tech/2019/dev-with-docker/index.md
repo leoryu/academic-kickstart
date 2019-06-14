@@ -29,7 +29,7 @@ categories = ["Tech"]
 ## 前置工作
 
 1. Windows操作系统，最好是Windows10
-2. Docker环境，可以的话Docker最好安装在Linux环境
+2. Docker环境
 3. VSCode，最新稳定版即可，记得安装RD插件
 4. [OpenSSH compatible SSH client](https://code.visualstudio.com/docs/remote/troubleshooting#_installing-a-supported-ssh-client)
 5. 生成好你的ssh公私秘钥
@@ -117,6 +117,12 @@ Host your remote addr
 
 ```sh
 docker run -d -v /your/path:/root/Workspace -v /var/run/docker.sock:/var/run/docker.sock -p 50001:22 archlinux:dev
+```
+
+如果你的容器运行在Windows环境下，就需要将挂载路径稍作修改：
+
+```sh
+docker run -d -v /your/path:/root/Workspace -v //var/run/docker.sock:/var/run/docker.sock -p 50001:22 archlinux:dev
 ```
 
 除了这种方式外，你也可以用一些技巧不需要外挂目录，在容器内使用“真正的Docker”。有兴趣的可以参考[dind](https://github.com/jpetazzo/dind)。
