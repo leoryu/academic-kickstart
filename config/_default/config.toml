@@ -19,7 +19,7 @@ copyright = "&copy; {year} Leo Ryu"
 googleAnalytics = ""
 
 # Enable comments by entering your Disqus shortname
-disqusShortname = ""
+disqusShortname = "leo-ryu-blog"
 
 ############################
 ## Advanced options below ##
