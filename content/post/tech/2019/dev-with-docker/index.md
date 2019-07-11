@@ -116,13 +116,13 @@ Host your remote addr
 如果你的host是Linux并且Docker已经可以正常运行，这是可以很容易实现的，只需要在运行命令时添加一个挂在目录：
 
 ```sh
-docker run -d -v /your/path:/root/Workspace -v /var/run/docker.sock:/var/run/docker.sock -p 50001:22 archlinux:dev
+docker run --security-opt seccomp:unconfined --name arch --network host -d -v /your/path:/root/Workspace -v /var/run/docker.sock:/var/run/docker.sock -p 50001:22 archlinux:dev
 ```
 
 如果你的容器运行在Windows环境下，就需要将挂载路径稍作修改：
 
 ```sh
-docker run -d -v /your/path:/root/Workspace -v //var/run/docker.sock:/var/run/docker.sock -p 50001:22 archlinux:dev
+docker run --security-opt seccomp:unconfined --name arch --network host -d -v /your/path:/root/Workspace -v //var/run/docker.sock:/var/run/docker.sock -p 50001:22 archlinux:dev
 ```
 
 除了这种方式外，你也可以用一些技巧不需要外挂目录，在容器内使用“真正的Docker”。有兴趣的可以参考[dind](https://github.com/jpetazzo/dind)。
